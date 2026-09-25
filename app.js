@@ -8,7 +8,6 @@ function showPage(page) {
 
     content.innerHTML = `
       <div class="stats">
-
         <div class="card">
           <small>Заказы</small>
           <div class="value">1 248</div>
@@ -23,32 +22,24 @@ function showPage(page) {
           <small>Доход</small>
           <div class="value">84 520 ₽</div>
         </div>
-
       </div>
     `;
   }
 
-  if (page === "orders") {
+  else if (page === "orders") {
     title.textContent = "Заказы";
 
     content.innerHTML = `
       <div class="section">
-
         <h2>Заказы</h2>
-
-        <button class="primary" id="createOrder">
+        <button class="primary" onclick="createOrder()">
           + Создать заказ
         </button>
-
-        <div id="orderForm"></div>
-
       </div>
     `;
-
-    document.getElementById("createOrder").onclick = createOrder;
   }
 
-  if (page === "customers") {
+  else if (page === "customers") {
     title.textContent = "Клиенты";
 
     content.innerHTML = `
@@ -59,18 +50,18 @@ function showPage(page) {
     `;
   }
 
-  if (page === "services") {
+  else if (page === "services") {
     title.textContent = "Услуги";
 
     content.innerHTML = `
       <div class="section">
         <h2>Услуги</h2>
-        <p>Услуги панели.</p>
+        <p>Управление услугами.</p>
       </div>
     `;
   }
 
-  if (page === "automation") {
+  else if (page === "automation") {
     title.textContent = "Автоматизация";
 
     content.innerHTML = `
@@ -81,7 +72,7 @@ function showPage(page) {
     `;
   }
 
-  if (page === "balance") {
+  else if (page === "balance") {
     title.textContent = "Баланс";
 
     content.innerHTML = `
@@ -92,18 +83,18 @@ function showPage(page) {
     `;
   }
 
-  if (page === "activity") {
+  else if (page === "activity") {
     title.textContent = "Активность";
 
     content.innerHTML = `
       <div class="section">
         <h2>Активность</h2>
-        <p>Последние действия.</p>
+        <p>Последние действия системы.</p>
       </div>
     `;
   }
 
-  if (page === "settings") {
+  else if (page === "settings") {
     title.textContent = "Настройки";
 
     content.innerHTML = `
@@ -115,64 +106,68 @@ function showPage(page) {
   }
 }
 
+
 function createOrder() {
 
-  document.getElementById("orderForm").innerHTML = `
+  content.innerHTML = `
+    <div class="section">
 
-    <div style="margin-top:20px">
+      <h2>Создать заказ</h2>
 
       <input
         class="input"
-        id="link"
-        type="url"
         placeholder="Ссылка"
+        id="orderLink"
       >
 
       <input
         class="input"
-        id="quantity"
         type="number"
         placeholder="Количество"
-        min="1"
+        id="orderQuantity"
       >
 
-      <select class="select" id="service">
-
+      <select class="select" id="orderService">
         <option>Подписчики</option>
         <option>Просмотры</option>
         <option>Лайки</option>
-
       </select>
 
-      <button class="primary" id="submitOrder">
+      <br><br>
+
+      <button class="primary" onclick="submitOrder()">
         Оформить заказ
       </button>
 
     </div>
-
   `;
 
-  document.getElementById("submitOrder").onclick = function() {
-
-    const link = document.getElementById("link").value;
-    const quantity = document.getElementById("quantity").value;
-
-    if (!link || !quantity) {
-      alert("Заполни все поля");
-      return;
-    }
-
-    alert("Заказ создан!");
-
-  };
+  title.textContent = "Создать заказ";
 }
 
-document.querySelectorAll(".sidebar button").forEach(button => {
 
-  button.addEventListener("click", function() {
-    showPage(this.dataset.page);
-  });
+function submitOrder() {
+
+  const link = document.getElementById("orderLink").value;
+  const quantity = document.getElementById("orderQuantity").value;
+
+  if (!link || !quantity) {
+    alert("Заполни ссылку и количество");
+    return;
+  }
+
+  alert("Заказ создан!");
+
+}
+
+
+document.querySelectorAll(".sidebar button").forEach(function(button) {
+
+  button.onclick = function() {
+    showPage(button.getAttribute("data-page"));
+  };
 
 });
+
 
 showPage("dashboard");
